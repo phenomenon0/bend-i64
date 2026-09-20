@@ -46,6 +46,26 @@ def main() -> IO(Unit):
 `zero one minus_one min max add sub mul inc neg and or xor not shl shl_n shr
 shr_s shr_s_n cmp is_eq is_lt is_gt is_neg to_nat`
 
+## Performance (measured — the honest number)
+
+10,000,000 incrementing adds, same program, Ryzen 7 7700X, Bend 2.0.17
+(the i64 lane; the u64 twin measures identically — same `Word(64n)` path):
+
+| lane | time | per op |
+|---|---:|---:|
+| native C control (`long long`) | ~2 ms | sub-nanosecond (loop collapses under -O2) |
+| Bend interpreter | 1.47 s | ~147 ns |
+| Bend → C, `-O2` | 2.2 s | ~220 ns |
+
+**Slow, and worth saying plainly:** width-64 generic `Word.*` compiles to the
+structural bit-at-a-time walk (only width-32 and `F64` have native op tables),
+so a compiled `I64` op costs about what an interpreted one costs,
+~10²–10³× the native control. Use it for cold paths (IDs, occasional
+arithmetic, the proof story) today; for hot loops use pairs of `U32` with
+manual carry — or wait for a native `Word(64n)` lowering (mechanical: mirror
+the `F64` op tables). This package is the working spec — and the benchmark —
+for that change.
+
 ## Verify
 
 ```sh
