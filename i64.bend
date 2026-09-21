@@ -11,6 +11,11 @@
 # generic inductive lemma Word.add_comm(64n, ...) — and it transfers to the
 # signed reading exactly because addition ignores the sign.
 #
+# Speed: same as its unsigned twin — every op walks the generic Word(64n)
+# layer (reference-grade on hot loops; bench in the repo README). A native
+# word-64 lowering turns the same semantics into machine-speed ops — merged
+# in the omen fork, proposed upstream. Cold paths today: IDs, deltas, proofs.
+#
 # Boundaries, stated honestly:
 #   - to_nat is valid for 0 <= v <= 2^48-1 (Nat immediate limit); negative
 #     values read as their bit pattern and are documented, not converted.

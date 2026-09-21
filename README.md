@@ -5,6 +5,8 @@ with a machine-checked commutation law and the signed layer made explicit:
 negation, sign-aware comparison, arithmetic shift. No FFI, no intrinsics, no
 `unsafe`, no compiler change.
 
+**Published on BendHub: [`0x9f15483a7cabc6e91e5092cc41829c43`](https://hub.bend-lang.com/0x9f15483a7cabc6e91e5092cc41829c43)** (2 files, 7,419 bytes).
+
 ```bend
 import Base
 import ./i64.bend as I64
